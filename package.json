@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "cd server && npm install && cd ../client && npm install && npm run build",
+    "build": "npm install --prefix server && npm install --prefix client && npm run build --prefix client",
     "start": "node server/server.js",
     "dev:server": "cd server && node server.js",
     "dev:client": "cd client && npx vite"
