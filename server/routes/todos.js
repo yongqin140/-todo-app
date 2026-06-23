@@ -4,7 +4,14 @@ const Todo = require('../models/Todo');
 
 router.get('/', async (req, res) => {
   try {
-    const todos = await Todo.find().sort({ createdAt: -1 });
+    const { q, sort, order } = req.query;
+    const filter = {};
+    if (q) {
+      filter.title = { $regex: q, $options: 'i' };
+    }
+    const sortField = sort || 'createdAt';
+    const sortOrder = order === 'asc' ? 1 : -1;
+    const todos = await Todo.find(filter).sort({ [sortField]: sortOrder });
     res.json(todos);
   } catch (err) {
     res.status(500).json({ error: err.message });
